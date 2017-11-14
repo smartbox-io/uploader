@@ -36,7 +36,7 @@ pipeline {
     stage ("Build production image") {
       steps {
         script {
-          docker.build("smartbox/uploader:${GIT_COMMIT}-production", "-f Dockerfile .")
+          docker.build("smartbox/uploader:${GIT_COMMIT}-production", "-f Dockerfile.production .")
         }
       }
     }
