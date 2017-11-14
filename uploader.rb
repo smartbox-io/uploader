@@ -7,16 +7,16 @@ if ARGV.empty?
   Process.exit 1
 end
 
-def request(host: "172.17.4.201", path:, method: :get, payload: nil, access_token: nil)
-  response = perform_request host: host, path: path, method: method, payload: payload,
+def request(path:, method: :get, payload: nil, access_token: nil)
+  response = perform_request path: path, method: method, payload: payload,
                              access_token: access_token
   puts response.inspect
   puts response.body
   JSON.parse response.body, symbolize_names: true
 end
 
-def perform_request(host:, path:, method:, payload:, access_token:)
-  uri = URI("http://#{host}/api/v1/#{path}")
+def perform_request(path:, method:, payload:, access_token:)
+  uri = URI("http://#{ENV["BRAIN_SERVICE_HOST"]}:#{ENV["BRAIN_SERVICE_PORT"]}/api/v1/#{path}")
   http = Net::HTTP.new(uri.host, uri.port)
   req = build_request uri: uri, method: method
   req["Authorization"] = "Bearer #{access_token}" if access_token
